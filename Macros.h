@@ -23,6 +23,12 @@ static inline NSString *StringFromObject(id object) {
 }
 
 #pragma mark -
+#pragma mark Status Bar
+
+#define ShowNetworkActivityIndicator() [UIApplication sharedApplication].networkActivityIndicatorVisible = YES
+#define HideNetworkActivityIndicator() [UIApplication sharedApplication].networkActivityIndicatorVisible = NO
+
+#pragma mark -
 #pragma mark iOS Version
 
 #define IOS_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
