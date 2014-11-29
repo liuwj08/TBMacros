@@ -1,26 +1,30 @@
 #import <mach/mach_time.h>  // for mach_absolute_time() and friends
-                            // adapted from http://blog.bignerdranch.com/316-a-timing-utility/
+// adapted from http://blog.bignerdranch.com/316-a-timing-utility/
 
 // Adapted from Will Shipley http://blog.wilshipley.com/2005/10/pimp-my-code-interlude-free-code.html
 static inline BOOL IsEmpty(id thing) {
     return thing == nil || [thing isEqual:[NSNull null]]
-        || ([thing respondsToSelector:@selector(length)]
+    || ([thing respondsToSelector:@selector(length)]
         && [(NSData *)thing length] == 0)
-        || ([thing respondsToSelector:@selector(count)]
+    || ([thing respondsToSelector:@selector(count)]
         && [(NSArray *)thing count] == 0);
 }
 
 static inline NSString *StringFromObject(id object) {
-	if (object == nil || [object isEqual:[NSNull null]]) {
-		return @"";
-	} else if ([object isKindOfClass:[NSString class]]) {
-		return object;
-	} else if ([object respondsToSelector:@selector(stringValue)]){
-		return [object stringValue];
-	} else {
-		return [object description];
-	}
+    if (object == nil || [object isEqual:[NSNull null]]) {
+        return @"";
+    } else if ([object isKindOfClass:[NSString class]]) {
+        return object;
+    } else if ([object respondsToSelector:@selector(stringValue)]){
+        return [object stringValue];
+    } else {
+        return [object description];
+    }
 }
+
+#pragma mark -
+#pragma mark Golden ratio
+#define GOLDEN_RATIO 144/233
 
 #pragma mark -
 #pragma mark Status Bar
@@ -88,10 +92,10 @@ static inline NSDictionary *DictionaryWithIDArray(id *array, NSUInteger count) {
 #define LOG(fmt, ...) NSLog(@"%s: " fmt, __PRETTY_FUNCTION__, ## __VA_ARGS__)
 
 #ifdef DEBUG
-    #define INFO(fmt, ...) LOG(fmt, ## __VA_ARGS__)
+#define INFO(fmt, ...) LOG(fmt, ## __VA_ARGS__)
 #else
-    // do nothing
-    #define INFO(fmt, ...) 
+// do nothing
+#define INFO(fmt, ...)
 #endif
 
 #define ERROR(fmt, ...) LOG(fmt, ## __VA_ARGS__)
@@ -123,8 +127,14 @@ static inline NSDictionary *DictionaryWithIDArray(id *array, NSUInteger count) {
 #define Y(view) view.frame.origin.y
 #define LEFT(view) view.frame.origin.x
 #define TOP(view) view.frame.origin.y
-#define BOTTOM(view) (view.frame.origin.y + view.frame.size.height) 
-#define RIGHT(view) (view.frame.origin.x + view.frame.size.width) 
+#define BOTTOM(view) (view.frame.origin.y + view.frame.size.height)
+#define RIGHT(view) (view.frame.origin.x + view.frame.size.width)
+
+#pragma mark -
+#pragma mark - Screen Size
+
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
 #pragma mark -
 #pragma mark IndexPath
@@ -135,9 +145,9 @@ static inline NSDictionary *DictionaryWithIDArray(id *array, NSUInteger count) {
 #define NEVER_TRUE NO &&
 
 #pragma mark -
-#pragma mark Device type. 
+#pragma mark Device type.
 // Corresponds to "Targeted device family" in project settings
-// Universal apps will return true for whichever device they're on. 
+// Universal apps will return true for whichever device they're on.
 // iPhone apps will return true for iPhone even if run on iPad.
 
 #define TARGETED_DEVICE_IS_IPAD UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
@@ -148,6 +158,7 @@ static inline NSDictionary *DictionaryWithIDArray(id *array, NSUInteger count) {
 #pragma mark Transforms
 
 #define DEGREES_TO_RADIANS(degrees) degrees * M_PI / 180
+#define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 
 static inline void TimeThisBlock (void (^block)(void), NSString *message) {
     mach_timebase_info_data_t info;
