@@ -22,6 +22,11 @@ static inline NSString *StringFromObject(id object) {
     }
 }
 
+#include "TargetConditionals.h"
+#pragma mark -
+#pragma mark - Determine Simulator
+#define SIMULATOR TARGET_IPHONE_SIMULATOR
+
 #pragma mark -
 #pragma mark Golden ratio
 #define GOLDEN_RATIO 144/233
