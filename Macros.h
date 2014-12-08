@@ -83,6 +83,12 @@ static inline NSDictionary *DictionaryWithIDArray(id *array, NSUInteger count) {
     
     return [NSDictionary dictionaryWithObjects: objs forKeys: keys count: count];
 }
+
+#pragma mark - 
+#pragma mark - NSLog
+
+#define NSLOG NSLog(@"Mark");
+
 #define POINTERIZE(x) ((__typeof__(x) []){ x })
 #define NSVALUE(x) [NSValue valueWithBytes: POINTERIZE(x) objCType: @encode(__typeof__(x))]
 
